@@ -8,6 +8,50 @@ class PromptEnhancer {
             business: this.enhanceBusinessPrompt.bind(this),
             general: this.enhanceGeneralPrompt.bind(this)
         };
+
+        // Common typo corrections
+        this.typoCorrections = {
+            'crat': 'create',
+            'creat': 'create',
+            'craete': 'create',
+            'logon': 'login',
+            'log on': 'login',
+            'signin': 'sign in',
+            'singup': 'sign up',
+            'signup': 'sign up',
+            'buton': 'button',
+            'buttom': 'button',
+            'desing': 'design',
+            'develope': 'develop',
+            'develp': 'develop',
+            'analize': 'analyze',
+            'analise': 'analyze',
+            'writte': 'write',
+            'wrtie': 'write',
+            'genrate': 'generate',
+            'generete': 'generate',
+            'implment': 'implement',
+            'implemnt': 'implement',
+            'responce': 'response',
+            'reponse': 'response',
+            'recieve': 'receive',
+            'recive': 'receive',
+            'seperate': 'separate',
+            'seperete': 'separate'
+        };
+    }
+
+    autoCorrect(text) {
+        let corrected = text;
+
+        // Fix typos word by word
+        const words = text.split(/\b/);
+        const correctedWords = words.map(word => {
+            const lowerWord = word.toLowerCase();
+            return this.typoCorrections[lowerWord] || word;
+        });
+
+        return correctedWords.join('');
     }
 
     enhance(text, type = 'general') {
@@ -15,21 +59,24 @@ class PromptEnhancer {
             return null;
         }
 
+        // Auto-correct typos before enhancement
+        const correctedText = this.autoCorrect(text.trim());
+
         const strategy = this.strategies[type] || this.strategies.general;
-        return strategy(text.trim());
+        return strategy(correctedText);
     }
 
     enhanceCodePrompt(text) {
         const sections = [];
-        
+
         sections.push("**Task**: Create a " + this.extractMainGoal(text));
-        
+
         sections.push("\n**Requirements**:");
         sections.push("- Implement clean, maintainable, and well-documented code");
         sections.push("- Follow best practices and design patterns");
         sections.push("- Ensure responsive design (if applicable)");
         sections.push("- Include error handling and edge cases");
-        
+
         if (this.mentionsUI(text)) {
             sections.push("\n**UI/UX Specifications**:");
             sections.push("- Modern, intuitive interface");
@@ -37,139 +84,139 @@ class PromptEnhancer {
             sections.push("- Accessible (WCAG 2.1 compliant)");
             sections.push("- Mobile-responsive design");
         }
-        
+
         sections.push("\n**Technical Details**:");
         sections.push("- Use modern JavaScript (ES6+)");
         sections.push("- Optimize for performance");
         sections.push("- Add inline comments for complex logic");
         sections.push("- Follow naming conventions");
-        
+
         sections.push("\n**Deliverables**:");
         sections.push("- Complete, working code");
         sections.push("- Brief explanation of key implementation decisions");
         sections.push("- Any dependencies or setup instructions");
-        
+
         return sections.join("\n");
     }
 
     enhanceCreativePrompt(text) {
         const sections = [];
-        
+
         sections.push("**Creative Brief**: " + this.capitalizeFirst(text));
-        
+
         sections.push("\n**Style & Tone**:");
         sections.push("- Engaging and immersive narrative");
         sections.push("- Vivid, descriptive language");
         sections.push("- Consistent voice throughout");
         sections.push("- Emotionally resonant");
-        
+
         sections.push("\n**Structure**:");
         sections.push("- Clear beginning, middle, and end");
         sections.push("- Well-developed characters (if applicable)");
         sections.push("- Compelling conflict or central theme");
         sections.push("- Satisfying resolution");
-        
+
         sections.push("\n**Creative Elements**:");
         sections.push("- Rich sensory details");
         sections.push("- Unique perspective or angle");
         sections.push("- Memorable imagery and metaphors");
         sections.push("- Authentic dialogue (if applicable)");
-        
+
         sections.push("\n**Length**: Approximately 500-800 words");
-        
+
         sections.push("\n**Audience**: General readers interested in " + this.extractTopic(text));
-        
+
         return sections.join("\n");
     }
 
     enhanceAnalysisPrompt(text) {
         const sections = [];
-        
+
         sections.push("**Analysis Objective**: " + this.capitalizeFirst(text));
-        
+
         sections.push("\n**Scope**:");
         sections.push("- Comprehensive examination of key factors");
         sections.push("- Data-driven insights");
         sections.push("- Multiple perspectives considered");
         sections.push("- Current trends and patterns");
-        
+
         sections.push("\n**Methodology**:");
         sections.push("- Systematic approach to analysis");
         sections.push("- Evidence-based conclusions");
         sections.push("- Comparison of relevant data points");
         sections.push("- Identification of correlations and causations");
-        
+
         sections.push("\n**Deliverables**:");
         sections.push("1. Executive summary");
         sections.push("2. Detailed analysis with supporting data");
         sections.push("3. Key findings and insights");
         sections.push("4. Actionable recommendations");
         sections.push("5. Future outlook and predictions");
-        
+
         sections.push("\n**Format**:");
         sections.push("- Clear section headings");
         sections.push("- Bullet points for key insights");
         sections.push("- Data visualizations (if applicable)");
         sections.push("- Citations for sources (if applicable)");
-        
+
         return sections.join("\n");
     }
 
     enhanceBusinessPrompt(text) {
         const sections = [];
-        
+
         sections.push("**Business Objective**: " + this.capitalizeFirst(text));
-        
+
         sections.push("\n**Context**:");
         sections.push("- Industry: [Specify relevant industry]");
         sections.push("- Target audience: [Define stakeholders]");
         sections.push("- Business goals: [Align with strategic objectives]");
         sections.push("- Timeline: [Specify urgency/deadlines]");
-        
+
         sections.push("\n**Requirements**:");
         sections.push("- Professional, business-appropriate tone");
         sections.push("- Clear, concise communication");
         sections.push("- Data-driven decision making");
         sections.push("- ROI considerations");
-        
+
         sections.push("\n**Deliverables**:");
         sections.push("- Executive summary");
         sections.push("- Detailed proposal/plan");
         sections.push("- Risk assessment");
         sections.push("- Success metrics and KPIs");
         sections.push("- Implementation roadmap");
-        
+
         sections.push("\n**Format**:");
         sections.push("- Professional business document structure");
         sections.push("- Clear headings and sections");
         sections.push("- Supporting data and evidence");
         sections.push("- Actionable next steps");
-        
+
         return sections.join("\n");
     }
 
     enhanceGeneralPrompt(text) {
         const sections = [];
-        
+
         sections.push("**Request**: " + this.capitalizeFirst(text));
-        
+
         sections.push("\n**Context**:");
         sections.push("Please provide a comprehensive response that:");
         sections.push("- Addresses the core question or request");
         sections.push("- Includes relevant background information");
         sections.push("- Considers multiple perspectives");
         sections.push("- Provides practical, actionable insights");
-        
+
         sections.push("\n**Format**:");
         sections.push("- Clear, well-organized structure");
         sections.push("- Logical flow of information");
         sections.push("- Examples or illustrations where helpful");
         sections.push("- Summary of key points");
-        
+
         sections.push("\n**Tone**: Professional yet approachable");
-        
+
         sections.push("\n**Length**: Detailed enough to be thorough, concise enough to be readable");
-        
+
         return sections.join("\n");
     }
 
@@ -202,19 +249,19 @@ class PromptEnhancer {
     calculateMetrics(originalText, enhancedText) {
         const originalLength = originalText.length;
         const enhancedLength = enhancedText.length;
-        
+
         // Clarity score based on structure and detail
         const hasStructure = enhancedText.includes('**') && enhancedText.includes('\n');
         const hasBulletPoints = enhancedText.includes('-');
         const clarityScore = hasStructure && hasBulletPoints ? '95%' : '75%';
-        
+
         // Detail level based on length increase
         const lengthIncrease = enhancedLength / originalLength;
         let detailLevel = 'Low';
         if (lengthIncrease > 10) detailLevel = 'Very High';
         else if (lengthIncrease > 7) detailLevel = 'High';
         else if (lengthIncrease > 4) detailLevel = 'Medium';
-        
+
         return {
             clarityScore,
             detailLevel,
@@ -272,16 +319,16 @@ document.querySelectorAll('.try-example-btn').forEach(btn => {
         const card = e.target.closest('.example-card');
         const type = card.dataset.type;
         const example = examplePrompts[type];
-        
+
         if (example) {
             inputText.value = example.before;
             promptTypeSelector.value = type;
             inputCharCount.textContent = `${example.before.length} characters`;
-            
+
             // Scroll to input
             inputText.scrollIntoView({ behavior: 'smooth', block: 'center' });
             inputText.focus();
-            
+
             // Auto-enhance after a short delay
             setTimeout(() => {
                 enhancePrompt();
@@ -294,35 +341,35 @@ document.querySelectorAll('.try-example-btn').forEach(btn => {
 function enhancePrompt() {
     const input = inputText.value.trim();
     const type = promptTypeSelector.value;
-    
+
     if (!input) {
         showNotification('Please enter some text first!', 'warning');
         return;
     }
-    
+
     // Add loading state
     enhanceBtn.disabled = true;
     enhanceBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2" stroke-dasharray="50" stroke-dashoffset="0"><animateTransform attributeName="transform" type="rotate" from="0 10 10" to="360 10 10" dur="1s" repeatCount="indefinite"/></circle></svg> Enhancing...';
-    
+
     // Simulate processing time for better UX
     setTimeout(() => {
         const enhanced = enhancer.enhance(input, type);
-        
+
         if (enhanced) {
             // Display enhanced prompt
             outputText.innerHTML = formatEnhancedPrompt(enhanced);
-            
+
             // Calculate and display metrics
             const metrics = enhancer.calculateMetrics(input, enhanced);
             clarityScore.textContent = metrics.clarityScore;
             detailLevel.textContent = metrics.detailLevel;
             outputCharCount.textContent = metrics.characterCount;
             enhancementMetrics.style.display = 'flex';
-            
+
             // Show success notification
             showNotification('Prompt enhanced successfully!', 'success');
         }
-        
+
         // Reset button
         enhanceBtn.disabled = false;
         enhanceBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L12 8L18 10L12 12L10 18L8 12L2 10L8 8L10 2Z" fill="currentColor"/></svg> Enhance Prompt';
@@ -335,25 +382,25 @@ function formatEnhancedPrompt(text) {
         .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
         .replace(/\n/g, '<br>')
         .replace(/^- (.+)$/gm, '<div style="padding-left: 1.5rem; position: relative;"><span style="position: absolute; left: 0;">•</span> $1</div>');
-    
+
     return `<div style="line-height: 1.8;">${formatted}</div>`;
 }
 
 function copyToClipboard() {
     const textContent = outputText.innerText;
-    
+
     if (!textContent || textContent.includes('Your enhanced prompt will appear here')) {
         showNotification('Nothing to copy yet!', 'warning');
         return;
     }
-    
+
     navigator.clipboard.writeText(textContent).then(() => {
         showNotification('Copied to clipboard!', 'success');
-        
+
         // Visual feedback on button
         const originalHTML = copyBtn.innerHTML;
         copyBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill="currentColor"/></svg> Copied!';
-        
+
         setTimeout(() => {
             copyBtn.innerHTML = originalHTML;
         }, 2000);
@@ -365,7 +412,7 @@ function copyToClipboard() {
 
 function showNotification(message, type = 'success') {
     notificationText.textContent = message;
-    
+
     // Change color based on type
     if (type === 'warning') {
         notification.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
@@ -374,9 +421,9 @@ function showNotification(message, type = 'success') {
     } else {
         notification.style.background = 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)';
     }
-    
+
     notification.classList.add('show');
-    
+
     setTimeout(() => {
         notification.classList.remove('show');
     }, 3000);
@@ -389,7 +436,7 @@ document.addEventListener('keydown', (e) => {
         e.preventDefault();
         enhancePrompt();
     }
-    
+
     // Ctrl/Cmd + C when output is focused
     if ((e.ctrlKey || e.metaKey) && e.key === 'c' && document.activeElement === outputText) {
         copyToClipboard();
