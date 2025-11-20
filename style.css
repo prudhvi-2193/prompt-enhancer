@@ -229,11 +229,18 @@ body {
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
 }
 
-/* Fix dropdown option visibility */
+/* Fix dropdown option visibility - Enhanced */
 .prompt-type-selector option {
-    background-color: #1a1a2e;
-    color: #ffffff;
-    padding: 8px;
+    background-color: #2a2a3e !important;
+    color: #ffffff !important;
+    padding: 10px !important;
+    font-size: 0.9rem;
+}
+
+.prompt-type-selector option:hover,
+.prompt-type-selector option:checked {
+    background-color: #667eea !important;
+    color: #ffffff !important;
 }
 
 
