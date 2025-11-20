@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Transform simple text into beautiful, effective AI prompts for ChatGPT, Antigravity, and other AI assistants">
+    <title>Prompt Enhancement Agent - AI Prompt Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-gradient"></div>
+    
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="40" height="40" rx="12" fill="url(#gradient)"/>
+                    <path d="M20 10L28 16V24L20 30L12 24V16L20 10Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                    <circle cx="20" cy="20" r="4" fill="white"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" stop-color="#667eea"/>
+                            <stop offset="100%" stop-color="#764ba2"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>Prompt Enhancer</h1>
+            </div>
+            <p class="tagline">Transform simple ideas into powerful AI prompts</p>
+        </header>
+
+        <main class="main-content">
+            <div class="enhancement-section">
+                <div class="input-section glass-card">
+                    <div class="section-header">
+                        <h2>Your Simple Text</h2>
+                        <div class="controls">
+                            <select id="promptType" class="prompt-type-selector">
+                                <option value="general">General</option>
+                                <option value="code">Code/Technical</option>
+                                <option value="creative">Creative Writing</option>
+                                <option value="analysis">Analysis/Research</option>
+                                <option value="business">Business/Professional</option>
+                            </select>
+                        </div>
+                    </div>
+                    <textarea 
+                        id="inputText" 
+                        class="input-textarea" 
+                        placeholder="Type your simple request here... e.g., 'create a login page' or 'write a story about space'"
+                        rows="8"
+                    ></textarea>
+                    <div class="input-footer">
+                        <span id="inputCharCount" class="char-count">0 characters</span>
+                        <button id="enhanceBtn" class="enhance-btn">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M10 2L12 8L18 10L12 12L10 18L8 12L2 10L8 8L10 2Z" fill="currentColor"/>
+                            </svg>
+                            Enhance Prompt
+                        </button>
+                    </div>
+                </div>
+
+                <div class="output-section glass-card">
+                    <div class="section-header">
+                        <h2>Enhanced AI Prompt</h2>
+                        <div class="controls">
+                            <button id="copyBtn" class="copy-btn" title="Copy to clipboard">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <rect x="7" y="7" width="11" height="11" rx="2" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M5 13H3C2.44772 13 2 12.5523 2 12V3C2 2.44772 2.44772 2 3 2H12C12.5523 2 13 2.44772 13 3V5" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                    <div id="outputText" class="output-textarea">
+                        <div class="placeholder-content">
+                            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                                <circle cx="32" cy="32" r="30" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+                                <path d="M32 16L40 24L32 32L24 24L32 16Z" fill="currentColor" opacity="0.5"/>
+                                <path d="M32 32L40 40L32 48L24 40L32 32Z" fill="currentColor" opacity="0.3"/>
+                            </svg>
+                            <p>Your enhanced prompt will appear here</p>
+                        </div>
+                    </div>
+                    <div id="enhancementMetrics" class="enhancement-metrics" style="display: none;">
+                        <div class="metric">
+                            <span class="metric-label">Clarity Score</span>
+                            <span id="clarityScore" class="metric-value">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Detail Level</span>
+                            <span id="detailLevel" class="metric-value">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Character Count</span>
+                            <span id="outputCharCount" class="metric-value">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="examples-section">
+                <h2 class="section-title">Example Transformations</h2>
+                <div class="examples-grid">
+                    <div class="example-card glass-card" data-type="code">
+                        <div class="example-badge">Code</div>
+                        <div class="example-before">
+                            <h4>Before</h4>
+                            <p>"create a login page"</p>
+                        </div>
+                        <div class="example-arrow">→</div>
+                        <div class="example-after">
+                            <h4>After</h4>
+                            <p>"Create a modern, responsive login page with the following specifications..."</p>
+                        </div>
+                        <button class="try-example-btn">Try This Example</button>
+                    </div>
+
+                    <div class="example-card glass-card" data-type="creative">
+                        <div class="example-badge">Creative</div>
+                        <div class="example-before">
+                            <h4>Before</h4>
+                            <p>"write a story about space"</p>
+                        </div>
+                        <div class="example-arrow">→</div>
+                        <div class="example-after">
+                            <h4>After</h4>
+                            <p>"Write an engaging science fiction short story set in deep space..."</p>
+                        </div>
+                        <button class="try-example-btn">Try This Example</button>
+                    </div>
+
+                    <div class="example-card glass-card" data-type="analysis">
+                        <div class="example-badge">Analysis</div>
+                        <div class="example-before">
+                            <h4>Before</h4>
+                            <p>"analyze market trends"</p>
+                        </div>
+                        <div class="example-arrow">→</div>
+                        <div class="example-after">
+                            <h4>After</h4>
+                            <p>"Conduct a comprehensive analysis of current market trends..."</p>
+                        </div>
+                        <button class="try-example-btn">Try This Example</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tips-section glass-card">
+                <h3>💡 Tips for Better Prompts</h3>
+                <ul class="tips-list">
+                    <li><strong>Be specific:</strong> Include details about what you want to achieve</li>
+                    <li><strong>Provide context:</strong> Explain the background or purpose</li>
+                    <li><strong>Set constraints:</strong> Mention any limitations or requirements</li>
+                    <li><strong>Define format:</strong> Specify how you want the output structured</li>
+                    <li><strong>Use examples:</strong> Show what you're looking for when possible</li>
+                </ul>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Built with ✨ for better AI interactions</p>
+        </footer>
+    </div>
+
+    <div id="notification" class="notification">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill="currentColor"/>
+        </svg>
+        <span id="notificationText">Copied to clipboard!</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
